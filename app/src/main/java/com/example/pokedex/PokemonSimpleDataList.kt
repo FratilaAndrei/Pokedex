@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun PokemonSimpleData(pokemonList: List<PokemonDetails>){
+fun PokemonSimpleData(pokemonList: List<PokemonDetailsModel>){
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -35,7 +35,6 @@ fun PokemonSimpleData(pokemonList: List<PokemonDetails>){
                         fontSize = 18.sp
                     )
                 }
-
             }
         })
 }

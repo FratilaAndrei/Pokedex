@@ -24,14 +24,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val viewModel: PokemonData = PokemonData()
             PokedexTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Pokedex(viewModel)
+                    Pokedex()
                 }
             }
         }
@@ -41,9 +40,7 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun PokedexPrev() {
-//    Pokedex(PokemonData())
-    Pokedex(viewModel = PokemonData())
-
+    Pokedex()
 }
 
 
