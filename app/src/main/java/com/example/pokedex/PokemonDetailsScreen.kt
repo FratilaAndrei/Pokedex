@@ -1,5 +1,6 @@
 package com.example.pokedex
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
@@ -10,10 +11,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 
 @Composable
-fun PokemonDetailsScreen(navController: NavController, pokeName: String, viewModel: PokemonViewModel){
+fun PokemonDetailsScreen(navController: NavController, pokeName: String, viewModel: PokemonViewModel, repository: PokemonRepository){
 
     val pokemon = viewModel.pokemonState.collectAsStateWithLifecycle().value
-
+    viewModel.getPokemonData(pokeName)
 
     Column(modifier = Modifier.fillMaxSize()) {
         Button(onClick =  { navController.navigateUp() }){

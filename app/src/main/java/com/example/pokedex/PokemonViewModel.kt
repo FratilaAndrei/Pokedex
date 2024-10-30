@@ -16,22 +16,16 @@ class PokemonViewModel(private val repository: PokemonRepository) : ViewModel() 
     )
     var pokemonState: StateFlow<PokemonDetailsModel> = _pokemonState
 
-    private fun getPokemonData(){
+    fun getPokemonData(name:String){
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val pokemon = repository.getPokemon()
+                val pokemon = repository.getPokemon(name = name)
                 _pokemonState.value = pokemon
                 Log.d("UniqPokemon", pokemon.toString())
             } catch (e: Exception) {
                 Log.e("PokemonViewModel", "Error fetching pokemon ${e.message}")
             }
         }
-    }
-
-
-
-    init {
-        getPokemonData()
     }
 
 }

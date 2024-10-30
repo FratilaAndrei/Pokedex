@@ -11,6 +11,6 @@ interface ApiService {
     // suspends is kind of like an await in React
 
 //    @GET("pokemon/ivysaur")
-    @GET("pokemon/ivysaur")
-    suspend fun getPokemon(): Response<PokemonDetailsModel>
+    @GET("pokemon/{name}")
+    suspend fun getPokemon(@Path("name") name:String): Response<PokemonDetailsModel>
 }
