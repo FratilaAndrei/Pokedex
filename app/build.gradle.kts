@@ -51,6 +51,10 @@ android {
 
 dependencies {
 
+    val nav_version = "2.8.3"
+
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")

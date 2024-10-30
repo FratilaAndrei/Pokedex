@@ -18,6 +18,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.pokedex.ui.theme.PokedexTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,17 +33,31 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Pokedex()
+                    PokedexApp()
                 }
             }
         }
     }
 }
 
-@Preview(showBackground = true)
+
 @Composable
-fun PokedexPrev() {
-    Pokedex()
+fun PokedexApp(){
+    val navController = rememberNavController()
+    val repository = PokemonRepository(apiService = RetrofitClient.apiService)
+    val viewModelPokeList = PokemonListViewModel(repository = repository)
+    NavHost(navController = navController, startDestination = Screen.Home.route) {
+        composable(Screen.Home.route) {
+//            Pokedex(){
+//                navController.navigate(Screen.PokemonDetails.route)
+//            }
+                Pokedex(navController, viewModel = viewModelPokeList)
+        }
+        composable(Screen.PokemonDetails.route) { backStackEntry ->
+            PokemonDetailsScreen(navController, backStackEntry.arguments?.getString("pokeName"))
+        }
+    }
 }
+
 
 

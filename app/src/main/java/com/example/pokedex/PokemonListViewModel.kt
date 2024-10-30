@@ -10,25 +10,13 @@ import kotlinx.coroutines.launch
 
 class PokemonListViewModel(private val repository: PokemonRepository): ViewModel() {
     private val _pokemonListState = MutableStateFlow<PokemonResult>(PokemonResult(listOf()))
-
-    // Initialised this as null for empty object
-
     // unaccesible by View
 
     var pokemonListState: StateFlow<PokemonResult> = _pokemonListState
     // this copies the mutableState as an immutable
-
     // accesible by View
 
-//    init {
-//        CoroutineScope(Dispatchers.IO).launch {
-//           val list = repository.getPokemonList()
-//            _pokemonListState.value= list
-//            Log.d("Andrei", list.toString() )
-//        }
-//    }
-
-    init {
+     private fun getData(){
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val list =  repository.getPokemonList()
@@ -39,4 +27,12 @@ class PokemonListViewModel(private val repository: PokemonRepository): ViewModel
             }
         }
     }
+
+    init {
+        getData()
+    }
+
+
+
+
 }
