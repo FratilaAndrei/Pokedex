@@ -16,7 +16,7 @@ class PokemonListViewModel(private val repository: PokemonRepository): ViewModel
     // this copies the mutableState as an immutable
     // accesible by View
 
-     private fun getData(){
+     private fun getPokemonListData(){
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val list =  repository.getPokemonList()
@@ -28,8 +28,28 @@ class PokemonListViewModel(private val repository: PokemonRepository): ViewModel
         }
     }
 
+//    private val _pokemonState = MutableStateFlow<PokemonDetailsModel>(
+//        PokemonDetailsModel(
+//            0, 0, "", listOf(), listOf(), 0
+//        )
+//    )
+//    var pokemonState: StateFlow<PokemonDetailsModel> = _pokemonState
+//
+//    private fun getPokemonData(){
+//        viewModelScope.launch(Dispatchers.IO) {
+//            try {
+//                val pokemon = repository.getPokemon()
+//                _pokemonState.value = pokemon
+//                Log.d("UniqPokemon", pokemon.toString())
+//            } catch (e: Exception) {
+//                Log.e("PokemonViewModel", "Error fetching pokemon ${e.message}")
+//            }
+//        }
+//    }
+
     init {
-        getData()
+        getPokemonListData()
+//        getPokemonData()
     }
 
 

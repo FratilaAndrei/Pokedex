@@ -11,8 +11,8 @@ class PokemonRepository(private val apiService: ApiService) {
         // !! tells that i am sure the outcome wont be empty because if its empty it will break
     }
 
-//    suspend fun getPokemon(): PokemonDetailsModel{
-//        val res = apiService.getPokemon()
-//        return res.body()!!
-//    }
+    suspend fun getPokemon(): PokemonDetailsModel{
+        val res = apiService.getPokemon()
+        return res.body()!!
+    }
 }

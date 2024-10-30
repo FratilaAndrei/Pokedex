@@ -46,15 +46,14 @@ fun PokedexApp(){
     val navController = rememberNavController()
     val repository = PokemonRepository(apiService = RetrofitClient.apiService)
     val viewModelPokeList = PokemonListViewModel(repository = repository)
+    val viewModelUniquePoke = PokemonViewModel(repository = repository)
+
     NavHost(navController = navController, startDestination = Screen.Home.route) {
         composable(Screen.Home.route) {
-//            Pokedex(){
-//                navController.navigate(Screen.PokemonDetails.route)
-//            }
                 Pokedex(navController, viewModel = viewModelPokeList)
         }
         composable(Screen.PokemonDetails.route) { backStackEntry ->
-            PokemonDetailsScreen(navController, backStackEntry.arguments?.getString("pokeName"))
+            PokemonDetailsScreen(navController, backStackEntry.arguments?.getString("pokeName") ?: "", viewModelUniquePoke)
         }
     }
 }

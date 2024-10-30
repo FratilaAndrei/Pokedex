@@ -25,7 +25,8 @@ data class PokemonDetailsModel(
     val id: Int,
     val name: String,
     val stats: List<PokemonStatsModel>,
-    val types: List<PokemonTypesModel>
+    val types: List<PokemonTypesModel>,
+    val weight: Int
 )
 
 

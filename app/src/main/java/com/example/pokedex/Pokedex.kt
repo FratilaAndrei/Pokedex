@@ -64,7 +64,7 @@ fun Pokedex(navController: NavController, viewModel: PokemonListViewModel) {
             }
         ) {}
         Spacer(modifier = Modifier.height(12.dp))
-         LazyColumn(
+        LazyColumn(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             content = {
@@ -78,7 +78,10 @@ fun Pokedex(navController: NavController, viewModel: PokemonListViewModel) {
                             text = pokemon.name,
                             modifier = Modifier
                                 .padding(8.dp)
-                                .wrapContentSize().clickable { navController.navigate(Screen.PokemonDetails.createRoute(pokemon.name))  },
+                                .wrapContentSize()
+                                .clickable {
+                                    navController.navigate(Screen.PokemonDetails.createRoute(pokemon.name))
+                                },
                             fontSize = 18.sp
                         )
                     }
