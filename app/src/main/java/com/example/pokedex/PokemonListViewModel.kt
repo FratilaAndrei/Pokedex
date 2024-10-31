@@ -3,18 +3,18 @@ package com.example.pokedex
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class PokemonListViewModel(private val repository: PokemonRepository): ViewModel() {
+class PokemonListViewModel(private val repository: PokemonRepository) : ViewModel() {
     private val _pokemonListState = MutableStateFlow<PokemonResult>(PokemonResult(listOf()))
     private val _searchedPokemonInput = MutableStateFlow<String>("")
+    // MutableStateFlow are used in ViewModel and Repo because they allow multiple composable to listen to their change
+    // MutableState is used inside Composable for basic changes of UI elements because it doesnt support multiple listeners
     // unaccesible by View
 
     private var originalPokemonList: List<PokemonList> = listOf()
@@ -24,20 +24,20 @@ class PokemonListViewModel(private val repository: PokemonRepository): ViewModel
     // this copies the mutableState as an immutable
     // accesible by View
 
-     private fun getPokemonListData(){
+    private fun getPokemonListData() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val list =  repository.getPokemonList()
+                val list = repository.getPokemonList()
                 originalPokemonList = list.results
                 _pokemonListState.value = list
                 Log.d("AndreiPokemons", list.toString())
-            }catch(e:Exception){
+            } catch (e: Exception) {
                 Log.e("EroarePokemons", "Erorr Fetching Pokemons ${e.message}")
             }
         }
     }
 
-    fun emitSearchPokemon(searchedPoke:String){
+    fun emitSearchPokemon(searchedPoke: String) {
         _searchedPokemonInput.value = searchedPoke
     }
 
@@ -45,26 +45,26 @@ class PokemonListViewModel(private val repository: PokemonRepository): ViewModel
     init {
         getPokemonListData()
 
-        viewModelScope.launch{
-            _searchedPokemonInput.collect {
-//                input ->
-//                delay(1000)
-//                _pokemonListState.value.results.find {
-//                    pokemonFound -> pokemonFound.name.lowercase().contains(input.lowercase())
-//                }
+        viewModelScope.launch {
+            // creates a new coroutine
+            // a coroutine is kind of like branch of the main thread, its used to not block the main thread
+            _searchedPokemonInput.collectLatest {
+                // collect -> collects each Value emited from the Flow, running the code for each new value
+                // collectLatest -> it will cancel any previous unfinished collection if a new value is emited
+
+                // example for collect would be b-u-l-b  -> will have Colect_b, collect_u, collect_l, collect_b
+                // collectLatest would be b-u-l-b -> ending in latest collect which is bulb
+
                     searchInput ->
-                // Use with Filter
+//                delay(1000)
                 if (searchInput.isEmpty()) {
 //                    _pokemonListState.value = repository.getPokemonList()
                     _pokemonListState.value = PokemonResult(originalPokemonList)
                 } else {
                     _pokemonListState.value =
-//                        PokemonResult(pokemonListState.value.results.filter { pokemonFound ->
-//                            pokemonFound.name.lowercase().contains(searchInput.lowercase())
-//                        })
-                    PokemonResult(originalPokemonList.filter {
-                        pokemonFound -> pokemonFound.name.lowercase().contains(searchInput.lowercase())
-                    })
+                        PokemonResult(originalPokemonList.filter { pokemonFound ->
+                            pokemonFound.name.lowercase().contains(searchInput.lowercase())
+                        })
                 }
             }
         }

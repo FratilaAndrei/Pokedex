@@ -11,12 +11,12 @@ import kotlinx.coroutines.launch
 class PokemonViewModel(private val repository: PokemonRepository) : ViewModel() {
     private val _pokemonState = MutableStateFlow<PokemonDetailsModel>(
         PokemonDetailsModel(
-            0, 0, "", listOf(), listOf(), 0
+            0, 0, "", listOf(), listOf(), 0, PokemonSpriteModel("")
         )
     )
     var pokemonState: StateFlow<PokemonDetailsModel> = _pokemonState
 
-    fun getPokemonData(name:String){
+    fun getPokemonData(name: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val pokemon = repository.getPokemon(name = name)

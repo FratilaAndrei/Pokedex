@@ -53,10 +53,12 @@ fun PokedexApp(){
                 Pokedex(navController, viewModel = viewModelPokeList)
         }
         composable(Screen.PokemonDetails.route) { backStackEntry ->
-            PokemonDetailsScreen(navController, backStackEntry.arguments?.getString("pokeName") ?: "", viewModelUniquePoke, repository)
+            PokemonDetailsScreen(navController, backStackEntry.arguments?.getString("pokeName") ?: "", viewModelUniquePoke)
         }
     }
 }
+
+
 
 
 
