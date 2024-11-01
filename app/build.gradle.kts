@@ -1,6 +1,11 @@
+import com.google.devtools.ksp.gradle.KspExtension
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("androidx.room") version "2.6.1" apply false
+    id("com.google.devtools.ksp") version "2.0.21-1.0.25"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
 }
 
 android {
@@ -47,13 +52,36 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    project(project.path) {
+        extensions.configure<KspExtension> {
+            arg("room.generateKotlin", "true")
+        }
+    }
 }
 
 dependencies {
-
     val nav_version = "2.8.3"
+    val room_version = "2.6.1"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+//    implementation("androidx.room:room-ktx:$room_version")
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+//    implementation("androidx.room:room-guava:$room_version")
+
+    // To use Kotlin annotation processing tool (kapt)
+//    kapt("androidx.room:room-compiler:$room_version")
+    // To use Kotlin Symbol Processing (KSP)
+    ksp("androidx.room:room-compiler:$room_version")
+    implementation("com.google.devtools.ksp:symbol-processing-api:2.0.21-1.0.25")
 
     implementation("androidx.navigation:navigation-compose:$nav_version")
+
 
     // For images
     implementation("io.coil-kt.coil3:coil-compose:3.0.0-rc02")
@@ -67,7 +95,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
     implementation("androidx.activity:activity-compose:1.9.3")
-    implementation(platform("androidx.compose:compose-bom:2024.10.00"))
+    implementation(platform("androidx.compose:compose-bom:2024.10.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")

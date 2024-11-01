@@ -7,12 +7,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -27,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import com.example.pokedex.ViewModels.PokemonViewModel
 
 @Composable
 fun PokemonDetailsScreen(
@@ -55,7 +54,7 @@ fun PokemonDetailsScreen(
             modifier = Modifier
                 .wrapContentSize()
                 .padding(20.dp)
-                .border(BorderStroke(2.dp, Color.Cyan), shape = RoundedCornerShape(20)),
+                .border(BorderStroke(2.dp, Color.Cyan), shape = RoundedCornerShape(20))
         ) {
             Column(modifier = Modifier
                 .padding(40.dp).wrapContentSize(),
@@ -79,16 +78,12 @@ fun PokemonDetailsScreen(
                     }
                 }
                 Spacer(modifier = Modifier.height(20.dp))
-                Box(
-                    modifier = Modifier.fillMaxWidth()
-                ){
-                    AsyncImage(
+                AsyncImage(
                         model = pokemon.sprites.front_default,
-                        modifier = Modifier.size(200.dp),
+                        modifier = Modifier.fillMaxWidth().height(200.dp),
                         contentDescription = "$pokeName image",
                         alignment = Alignment.Center
                     )
-                }
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -103,32 +98,12 @@ fun PokemonDetailsScreen(
                         Text(text = "Weight: ${pokemon.weight}")
                     }
                 }
-
-
-//                Column {
-//                    pokemon.stats.forEach { stat ->
-//                        Column {
-//                            Text(text = "Stat: ${stat.stat.name}")
-//                            Text(text = "BaseStat: ${stat.base_stat} ")
-//                            Text(text = "Effort: ${stat.effort} ")
-//                        }
-//                    }
-//                }
             }
         }
 
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun ShowDetailsScreen() {
-//    val navController = rememberNavController()
-//    val repository = PokemonRepository(apiService = RetrofitClient.apiService)
-//    val viewModelUniquePoke = PokemonViewModel(repository = repository)
-//
-//    PokemonDetailsScreen(navController, "bulbasaur", viewModelUniquePoke)
-//}
 
 
 

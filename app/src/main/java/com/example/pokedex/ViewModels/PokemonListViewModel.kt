@@ -1,10 +1,12 @@
-package com.example.pokedex
+package com.example.pokedex.ViewModels
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pokedex.Data.Models.PokemonList
+import com.example.pokedex.Data.Models.PokemonResult
+import com.example.pokedex.Data.PokemonRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -21,7 +23,7 @@ class PokemonListViewModel(private val repository: PokemonRepository) : ViewMode
 
     var pokemonListState: StateFlow<PokemonResult> = _pokemonListState
     var searchedPokemonInput: StateFlow<String> = _searchedPokemonInput
-    // this copies the mutableState as an immutable
+    // this copies the mutableState as an immutable for encapsulation and safe data access
     // accesible by View
 
     private fun getPokemonListData() {
@@ -41,10 +43,8 @@ class PokemonListViewModel(private val repository: PokemonRepository) : ViewMode
         _searchedPokemonInput.value = searchedPoke
     }
 
-
     init {
         getPokemonListData()
-
         viewModelScope.launch {
             // creates a new coroutine
             // a coroutine is kind of like branch of the main thread, its used to not block the main thread

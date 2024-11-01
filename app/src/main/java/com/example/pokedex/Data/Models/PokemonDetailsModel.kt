@@ -1,4 +1,4 @@
-package com.example.pokedex
+package com.example.pokedex.Data.Models
 
 data class PokemonDetailsModel(
     val height: Int,

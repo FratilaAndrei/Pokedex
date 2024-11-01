@@ -1,8 +1,11 @@
-package com.example.pokedex
+package com.example.pokedex.ViewModels
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pokedex.Data.Models.PokemonDetailsModel
+import com.example.pokedex.Data.Models.PokemonSpriteModel
+import com.example.pokedex.Data.PokemonRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
